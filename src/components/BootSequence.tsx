@@ -4,15 +4,23 @@ import { useEffect, useState } from "react";
 
 const LINES = [
   "KYLEPBARTZ.OS v1.0.2",
+  "BIOS check... OK",
   "Initializing kernel...",
+  "Mounting filesystem...",
   "Loading modules: music, video, resume...",
+  "Checking audio drivers... OK",
+  "Checking display drivers... OK",
+  "Decompressing assets...",
   "Mounting /portfolio...",
   "Establishing connection...",
+  "Verifying integrity... OK",
+  "Starting services...",
   "READY_",
 ];
 
-const LINE_MS = 220;
-const HOLD_MS = 500;
+const LINE_MS = 550;
+const HOLD_MS = 400;
+const SOUND_SRC = "/audio/boot-sequence.mp3";
 
 export default function BootSequence() {
   const [active, setActive] = useState(false);
@@ -33,6 +41,12 @@ export default function BootSequence() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time first-visit boot sequence, gated by sessionStorage so it never re-fires
     setActive(true);
 
+    const audio = new Audio(SOUND_SRC);
+    audio.volume = 0.5;
+    // Browsers block audio autoplay without a prior user gesture; this is
+    // expected to silently fail on a cold first visit in most browsers.
+    audio.play().catch(() => {});
+
     let i = 0;
     const lineId = setInterval(() => {
       i += 1;
@@ -48,6 +62,7 @@ export default function BootSequence() {
     return () => {
       clearInterval(lineId);
       clearTimeout(hideId);
+      audio.pause();
     };
   }, []);
 
