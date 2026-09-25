@@ -1,7 +1,7 @@
 "use client";
 
 const SRC = "/audio/hum.wav";
-const TARGET_GAIN = 0.4;
+const TARGET_GAIN = 0.6;
 const RAMP_SECONDS = 0.3;
 
 let ctx: AudioContext | null = null;
