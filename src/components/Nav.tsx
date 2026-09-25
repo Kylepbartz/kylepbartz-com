@@ -12,7 +12,7 @@ export default function Nav() {
     <header className="sticky top-0 z-50 border-b border-black/10 dark:border-white/10 bg-background/80 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/" className="text-lg font-semibold tracking-tight">
-          Your Name
+          Kyle Bartz
         </Link>
         <ul className="flex gap-6 text-sm">
           {links.map((link) => (

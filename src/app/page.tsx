@@ -8,11 +8,12 @@ export default function Home() {
           Hi, I&apos;m
         </p>
         <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-          Your Name
+          Kyle Bartz
         </h1>
         <p className="max-w-xl text-lg text-foreground/70">
-          I make music, take photos, and build things. This is where I keep
-          it all in one place.
+          Instructional designer with a passion for connecting people and
+          ideas. I also make music, take photos, and build things — this is
+          where I keep it all in one place.
         </p>
         <div className="flex gap-4 pt-2">
           <Link
