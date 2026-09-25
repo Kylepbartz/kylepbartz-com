@@ -12,6 +12,7 @@ import KonamiCode from "@/components/KonamiCode";
 import ContextMenu from "@/components/ContextMenu";
 import BootSequence from "@/components/BootSequence";
 import GlobalKeyClicks from "@/components/GlobalKeyClicks";
+import GlobalMouseClicks from "@/components/GlobalMouseClicks";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ContextMenu />
         <BootSequence />
         <GlobalKeyClicks />
+        <GlobalMouseClicks />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
