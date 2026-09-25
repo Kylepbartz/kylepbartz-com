@@ -15,7 +15,7 @@ export default function Home() {
           <p className="max-w-xl text-lg text-foreground/70">
             Instructional designer and audio engineer with a passion for
             connecting people and ideas. Since I was a kid in Milwaukee
-            I&apos;ve loved music and recording — this is where I keep my
+            I&apos;ve loved music and recording. This is where I keep my
             design work, music, and video projects in one place.
           </p>
           <div className="flex gap-4 pt-2">

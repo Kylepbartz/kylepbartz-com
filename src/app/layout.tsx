@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kyle Bartz — Portfolio",
+  title: "Kyle Bartz - Portfolio",
   description: "Music, photography, and resume of Kyle Bartz.",
 };
 

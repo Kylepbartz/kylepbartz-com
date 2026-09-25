@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { videos } from "@/data/videos";
 
 export const metadata: Metadata = {
-  title: "Video — Kyle Bartz",
+  title: "Video - Kyle Bartz",
 };
 
 export default function VideoPage() {

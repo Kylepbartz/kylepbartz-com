@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { tracks, soundcloudProfileUrl } from "@/data/tracks";
 
 export const metadata: Metadata = {
-  title: "Music — Kyle Bartz",
+  title: "Music - Kyle Bartz",
 };
 
 export default function MusicPage() {

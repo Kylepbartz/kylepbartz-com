@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resume — Kyle Bartz",
+  title: "Resume - Kyle Bartz",
 };
 
 const profile =
@@ -11,7 +11,7 @@ const experience = [
   {
     role: "Instructional Designer",
     company: "TaskUs",
-    period: "2022 — Present",
+    period: "2022 - Present",
     location: "Austin, TX",
     bullets: [
       "Developed and converted trainings from pre-existing content into interactive, online-based content through Intellum Evolve.",
@@ -22,7 +22,7 @@ const experience = [
   {
     role: "Instructional Designer",
     company: "Apple (Contract)",
-    period: "2021 — 2022",
+    period: "2021 - 2022",
     location: "Austin, TX",
     bullets: [
       "Created trainings related to the customer support of consumer and professional creative applications such as Pages, Numbers, Keynote, Photos, iMovie, GarageBand, Logic Pro, and Final Cut.",
@@ -51,7 +51,7 @@ const experience = [
   {
     role: "Creative",
     company: "Apple",
-    period: "2016 — 2019",
+    period: "2016 - 2019",
     location: "Milwaukee, WI",
     bullets: [
       "Guided customers through the set up and functions of their new and existing devices, and enhanced user productivity.",
@@ -62,7 +62,7 @@ const experience = [
   {
     role: "Specialist",
     company: "Apple",
-    period: "2011 — 2016",
+    period: "2011 - 2016",
     location: "Milwaukee, WI",
     bullets: [
       "Demonstrated expertise in technical sales by assisting customers in arriving at the complete solution that is right for them, through both hardware and software.",
