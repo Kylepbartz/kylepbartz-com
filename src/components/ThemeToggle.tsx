@@ -1,15 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-
-type Theme = "light" | "dark" | "system";
-
-function applyTheme(theme: Theme) {
-  document.documentElement.classList.remove("light", "dark");
-  if (theme !== "system") {
-    document.documentElement.classList.add(theme);
-  }
-}
+import { setTheme as applyTheme, type Theme } from "@/lib/theme";
 
 const options: { value: Theme; label: string; icon: ReactNode }[] = [
   {
@@ -72,11 +64,6 @@ export default function ThemeToggle() {
   function select(next: Theme) {
     setTheme(next);
     applyTheme(next);
-    if (next === "system") {
-      localStorage.removeItem("theme");
-    } else {
-      localStorage.setItem("theme", next);
-    }
   }
 
   const activeIndex = options.findIndex((option) => option.value === theme);

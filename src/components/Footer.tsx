@@ -1,3 +1,5 @@
+"use client";
+
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-(--border-color)">
@@ -7,6 +9,15 @@ export default function Footer() {
           {new Date().getFullYear()} KYLE_BARTZ
         </p>
         <div className="flex flex-wrap justify-center gap-4">
+          <button
+            type="button"
+            onClick={() =>
+              window.dispatchEvent(new Event("open-terminal"))
+            }
+            className="transition hover:text-accent"
+          >
+            [terminal]
+          </button>
           <a
             href="mailto:kyle@kylepbartz.com"
             className="transition hover:text-accent"
@@ -34,6 +45,9 @@ export default function Footer() {
           </a>
         </div>
       </div>
+      <p className="pb-4 text-center text-[10px] tracking-widest text-foreground/30">
+        press <span className="text-accent">/</span> to open a terminal
+      </p>
     </footer>
   );
 }

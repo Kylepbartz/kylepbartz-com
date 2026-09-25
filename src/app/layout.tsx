@@ -6,6 +6,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScanlineOverlay from "@/components/ScanlineOverlay";
 import PageTransition from "@/components/PageTransition";
+import CommandPalette from "@/components/CommandPalette";
+import KonamiCode from "@/components/KonamiCode";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -62,6 +64,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </Script>
         <ScanlineOverlay />
         <PageTransition />
+        <CommandPalette />
+        <KonamiCode />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
