@@ -13,7 +13,7 @@ export default function Home() {
             width={200}
             height={200}
             priority
-            className="w-32 shrink-0 object-cover grayscale contrast-125 sm:w-40"
+            className="w-32 shrink-0 object-cover sm:w-40"
           />
         </div>
 
