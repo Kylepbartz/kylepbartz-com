@@ -70,7 +70,7 @@ export default function CommandPalette() {
         ...prev,
         {
           type: "output",
-          text: "cheat code accepted.\nunlocked: nothing. this isn't that kind of website.\nbut nice job remembering the konami code.",
+          text: "cheat code accepted.\nunlocked: nothing, there's no hidden game here.\nbut nice job remembering the konami code.",
         },
       ]);
     }
