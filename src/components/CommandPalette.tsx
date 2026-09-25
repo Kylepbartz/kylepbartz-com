@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { setTheme } from "@/lib/theme";
-import { primeKeyClicks, playKeyClick } from "@/lib/keyClicks";
+import { primeKeyClicks } from "@/lib/keyClicks";
 
 type Line = { type: "input" | "output"; text: string };
 
@@ -16,8 +16,6 @@ const routes: Record<string, string> = {
   resume: "/resume",
   cv: "/resume",
 };
-
-const NON_CLICK_KEYS = new Set(["Shift", "Control", "Alt", "Meta", "CapsLock"]);
 
 const HELP = [
   "available commands:",
@@ -242,9 +240,6 @@ export default function CommandPalette() {
             ref={inputRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (!NON_CLICK_KEYS.has(e.key)) playKeyClick();
-            }}
             className="flex-1 bg-transparent font-mono text-sm text-foreground outline-none"
             style={{ caretColor: "var(--accent)" }}
             autoComplete="off"
