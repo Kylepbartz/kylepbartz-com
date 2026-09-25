@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Kyle Bartz - Resume</title>
+<style>
+  @page {
+    size: Letter;
+    margin: 0.35in 0.65in 0.3in 0.65in;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 9.4pt;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .mono {
+    font-family: "SF Mono", "JetBrains Mono", "Menlo", monospace;
+  }
+
+  .accent {
+    color: #15803d;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: "SF Mono", "JetBrains Mono", "Menlo", monospace;
+    font-size: 19pt;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  h1 .accent {
+    font-weight: 700;
+  }
+
+  .tagline {
+    margin-top: 3px;
+    font-size: 9pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .contact {
+    text-align: right;
+    font-size: 8.8pt;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .contact a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  .contact .site {
+    color: #15803d;
+    font-weight: 600;
+  }
+
+  section {
+    margin-bottom: 7px;
+  }
+
+  h2 {
+    font-family: "SF Mono", "JetBrains Mono", "Menlo", monospace;
+    font-size: 9pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin: 0 0 5px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  h2::before {
+    content: "> ";
+    color: #15803d;
+  }
+
+  .summary {
+    font-size: 9.7pt;
+    color: #333;
+    margin: 0;
+  }
+
+  .job {
+    margin-bottom: 4px;
+  }
+
+  .job:last-child {
+    margin-bottom: 0;
+  }
+
+  .job-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .job-title {
+    font-weight: 700;
+    font-size: 10.3pt;
+  }
+
+  .job-company {
+    font-weight: 500;
+    color: #444;
+  }
+
+  .job-meta {
+    font-size: 8.6pt;
+    color: #777;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .job-location {
+    font-size: 8.6pt;
+    color: #888;
+    margin: 1px 0 3px 0;
+  }
+
+  ul.bullets {
+    margin: 0;
+    padding-left: 15px;
+  }
+
+  ul.bullets li {
+    margin-bottom: 1.5px;
+  }
+
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .edu-school {
+    font-weight: 700;
+  }
+
+  .edu-detail {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 8px;
+  }
+
+  .skill-pill {
+    font-size: 8.6pt;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 7px;
+    color: #333;
+    white-space: nowrap;
+  }
+
+  footer {
+    margin-top: 5px;
+    padding-top: 4px;
+    border-top: 1px solid #ccc;
+    font-size: 8.3pt;
+    color: #888;
+    text-align: center;
+  }
+
+  footer .accent {
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1><span class="accent">&gt;</span> KYLE BARTZ</h1>
+      <div class="tagline">Instructional Designer / Audio Engineer / Video Editor</div>
+    </div>
+    <div class="contact">
+      <div>kyle@kylepbartz.com &nbsp;·&nbsp; 414.581.9732</div>
+      <div>linkedin.com/in/kyle-bartz-277b8731</div>
+      <div class="site">kylepbartz.com</div>
+    </div>
+  </header>
+
+  <section>
+    <p class="summary">Passionate, computer-savvy audiophile with over ten years of experience in fast-moving, fluid environments involving both child and adult learning. Skilled in training, self-guided development, troubleshooting, creative problem-solving, public speaking, and connecting on a human level.</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Instructional Designer</span> &middot; <span class="job-company">TaskUs</span></span>
+        <span class="job-meta">2022 &ndash; Present</span>
+      </div>
+      <div class="job-location">Austin, TX</div>
+      <ul class="bullets">
+        <li>Developed and converted trainings from pre-existing content into interactive, online-based content through Intellum Evolve.</li>
+        <li>Created custom multimedia content for extensive distribution to a large team.</li>
+        <li>Created accessibility materials for multimedia presentations, such as subtitles and closed captioning.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Instructional Designer</span> &middot; <span class="job-company">Apple (Contract)</span></span>
+        <span class="job-meta">2021 &ndash; 2022</span>
+      </div>
+      <div class="job-location">Austin, TX</div>
+      <ul class="bullets">
+        <li>Created trainings related to the customer support of consumer and professional creative applications such as Pages, Numbers, Keynote, Photos, iMovie, GarageBand, Logic Pro, and Final Cut.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Instructional Designer</span> &middot; <span class="job-company">Google (Contract)</span></span>
+        <span class="job-meta">2021</span>
+      </div>
+      <div class="job-location">Austin, TX</div>
+      <ul class="bullets">
+        <li>Developed training in YouTube functions and features such as analytics, copyright, policy enforcement, AdSense, ad revenue, alternative monetization, and merchandising.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Associate Instructional Designer</span> &middot; <span class="job-company">Whole Foods Market</span></span>
+        <span class="job-meta">2020</span>
+      </div>
+      <div class="job-location">Austin, TX</div>
+      <ul class="bullets">
+        <li>Developed training materials including information system implementation, food safety, order writing, logistics, and store leadership.</li>
+        <li>Created and edited custom audio and visual content.</li>
+        <li>Created and distributed training material through eLearning software such as Inkling, Cornerstone, Rise, and Vyond.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Creative</span> &middot; <span class="job-company">Apple</span></span>
+        <span class="job-meta">2016 &ndash; 2019</span>
+      </div>
+      <div class="job-location">Milwaukee, WI</div>
+      <ul class="bullets">
+        <li>Guided customers through the set up and functions of their new and existing devices, and enhanced user productivity.</li>
+        <li>Mentored both internal and external customers, and presented creative prowess through various products, apps, and software to large audiences.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-row">
+        <span><span class="job-title">Specialist</span> &middot; <span class="job-company">Apple</span></span>
+        <span class="job-meta">2011 &ndash; 2016</span>
+      </div>
+      <div class="job-location">Milwaukee, WI</div>
+      <ul class="bullets">
+        <li>Demonstrated expertise in technical sales by assisting customers in arriving at the complete solution right for them, through both hardware and software.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="edu-row">
+      <span class="edu-school">Full Sail University</span>
+      <span class="job-meta">2010</span>
+    </div>
+    <div class="edu-detail">Bachelor of Science, Audio Engineering &middot; Winter Park, FL</div>
+
+    <div class="edu-row" style="margin-top:6px;">
+      <span class="edu-school">Full Sail University</span>
+      <span class="job-meta">2009</span>
+    </div>
+    <div class="edu-detail">Associate of Science, Audio Engineering &middot; Winter Park, FL</div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <span class="skill-pill">Instructional Design</span>
+      <span class="skill-pill">Curriculum Development</span>
+      <span class="skill-pill">Articulate Storyline / Rise</span>
+      <span class="skill-pill">Vyond</span>
+      <span class="skill-pill">Camtasia</span>
+      <span class="skill-pill">Cornerstone LMS</span>
+      <span class="skill-pill">Pro Tools / Logic</span>
+      <span class="skill-pill">Final Cut Pro</span>
+      <span class="skill-pill">Adobe Lightroom / Photoshop</span>
+      <span class="skill-pill">iOS / macOS Support</span>
+      <span class="skill-pill">Public Presentation</span>
+      <span class="skill-pill">Technical Troubleshooting</span>
+    </div>
+  </section>
+
+  <footer>
+    Music, video work, and interactive projects available at <span class="accent">kylepbartz.com</span>
+  </footer>
+
+</body>
+</html>
