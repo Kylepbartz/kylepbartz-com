@@ -26,10 +26,10 @@ export default function Home() {
               Listen to my music
             </Link>
             <Link
-              href="/photos"
+              href="/video"
               className="rounded-full border border-foreground/20 px-5 py-2.5 text-sm font-medium transition hover:border-foreground/40"
             >
-              See my photos
+              Watch my videos
             </Link>
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function Home() {
         />
       </section>
 
-      <section className="grid gap-4 pb-24 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-4 pb-24 sm:grid-cols-3">
         <Link
           href="/music"
           className="group rounded-2xl border border-black/10 p-6 transition hover:border-foreground/30 dark:border-white/10"
@@ -51,15 +51,6 @@ export default function Home() {
           <h2 className="text-lg font-semibold">Music</h2>
           <p className="mt-2 text-sm text-foreground/60">
             Tracks, playlists, and projects I&apos;ve worked on.
-          </p>
-        </Link>
-        <Link
-          href="/photos"
-          className="group rounded-2xl border border-black/10 p-6 transition hover:border-foreground/30 dark:border-white/10"
-        >
-          <h2 className="text-lg font-semibold">Photos</h2>
-          <p className="mt-2 text-sm text-foreground/60">
-            A selection of photography from recent years.
           </p>
         </Link>
         <Link
