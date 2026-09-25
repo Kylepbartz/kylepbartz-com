@@ -5,6 +5,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScanlineOverlay from "@/components/ScanlineOverlay";
+import CRTEffects from "@/components/CRTEffects";
 import PageTransition from "@/components/PageTransition";
 import CommandPalette from "@/components/CommandPalette";
 import KonamiCode from "@/components/KonamiCode";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {themeInitScript}
         </Script>
         <ScanlineOverlay />
+        <CRTEffects />
         <PageTransition />
         <CommandPalette />
         <KonamiCode />
