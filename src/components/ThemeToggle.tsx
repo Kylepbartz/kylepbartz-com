@@ -56,13 +56,17 @@ const options: { value: Theme; label: string; icon: ReactNode }[] = [
   },
 ];
 
+const STEP_PX = 26;
+
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("system");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync with the theme the inline init script already applied on <html> before hydration
     setTheme(stored === "light" || stored === "dark" ? stored : "system");
+    setMounted(true);
   }, []);
 
   function select(next: Theme) {
@@ -75,8 +79,17 @@ export default function ThemeToggle() {
     }
   }
 
+  const activeIndex = options.findIndex((option) => option.value === theme);
+
   return (
-    <div className="flex items-center gap-0.5 rounded-full border border-black/10 p-0.5 dark:border-white/10">
+    <div className="relative flex items-center gap-0.5 rounded-full border border-black/10 p-0.5 dark:border-white/10">
+      <div
+        aria-hidden
+        className={`absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-foreground ${
+          mounted ? "transition-transform duration-300 ease-out" : ""
+        }`}
+        style={{ transform: `translateX(${activeIndex * STEP_PX}px)` }}
+      />
       {options.map((option) => (
         <button
           key={option.value}
@@ -84,9 +97,9 @@ export default function ThemeToggle() {
           onClick={() => select(option.value)}
           aria-label={`${option.label} theme`}
           aria-pressed={theme === option.value}
-          className={`flex h-6 w-6 items-center justify-center rounded-full transition ${
+          className={`relative flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
             theme === option.value
-              ? "bg-foreground text-background"
+              ? "text-background"
               : "text-foreground/50 hover:text-foreground"
           }`}
         >
