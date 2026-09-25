@@ -1,87 +1,103 @@
 import Image from "next/image";
 import Link from "next/link";
+import TerminalWindow from "@/components/TerminalWindow";
 
 export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
-      <section className="flex min-h-[70vh] flex-col-reverse items-center gap-10 py-24 sm:flex-row sm:justify-between">
-        <div className="flex flex-col gap-6">
-          <p className="animate-fade-up text-sm font-medium uppercase tracking-widest text-foreground/50">
-            Hi, I&apos;m
-          </p>
-          <h1
-            className="animate-fade-up text-5xl font-bold tracking-tight sm:text-6xl"
-            style={{ animationDelay: "80ms" }}
-          >
-            Kyle Bartz
-          </h1>
-          <p
-            className="animate-fade-up max-w-xl text-lg text-foreground/70"
-            style={{ animationDelay: "160ms" }}
-          >
-            Instructional designer and audio engineer with a passion for
-            connecting people and ideas. Since I was a kid in Milwaukee
-            I&apos;ve loved music and recording. This is where I keep my
-            design work, music, and video projects in one place.
-          </p>
-          <div
-            className="animate-fade-up flex gap-4 pt-2"
-            style={{ animationDelay: "240ms" }}
-          >
-            <Link
-              href="/music"
-              className="rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90"
-            >
-              Listen to my music
-            </Link>
-            <Link
-              href="/video"
-              className="rounded-full border border-foreground/20 px-5 py-2.5 text-sm font-medium transition hover:border-foreground/40"
-            >
-              Watch my videos
-            </Link>
-          </div>
+      <section className="flex flex-col items-center gap-8 py-20 text-center">
+        <div className="animate-fade-up overflow-hidden rounded-sm border-2 border-foreground">
+          <Image
+            src="/images/kyle-portrait.webp"
+            alt="Portrait of Kyle Bartz"
+            width={200}
+            height={200}
+            priority
+            className="w-32 shrink-0 object-cover grayscale contrast-125 sm:w-40"
+          />
         </div>
-        <Image
-          src="/images/kyle-portrait.webp"
-          alt="Portrait of Kyle Bartz"
-          width={320}
-          height={320}
-          priority
-          className="animate-fade-up w-48 shrink-0 rounded-2xl object-cover sm:w-64"
-        />
+
+        <div
+          className="animate-fade-up rounded-sm border-2 border-foreground px-6 py-3 sm:px-10 sm:py-4"
+          style={{ animationDelay: "80ms" }}
+        >
+          <h1 className="font-display text-xl tracking-[0.15em] sm:text-3xl">
+            KYLE_PATRICK_BARTZ
+          </h1>
+        </div>
+
+        <p
+          className="animate-fade-up text-[11px] tracking-[0.3em] text-foreground/50 uppercase sm:text-xs"
+          style={{ animationDelay: "150ms" }}
+        >
+          instructional.designer / audio.engineer / video.editor
+        </p>
+
+        <p
+          className="animate-fade-up max-w-xl text-sm text-foreground/70 sm:text-base"
+          style={{ animationDelay: "220ms" }}
+        >
+          Since I was a kid in Milwaukee I&apos;ve loved music and recording.
+          This is where I keep my design work, music, and video projects in
+          one place.
+          <span className="animate-blink text-accent">_</span>
+        </p>
+
+        <div
+          className="animate-fade-up flex flex-wrap justify-center gap-4 pt-2"
+          style={{ animationDelay: "300ms" }}
+        >
+          <Link
+            href="/music"
+            className="border border-foreground px-5 py-2.5 text-sm transition hover:border-accent hover:text-accent"
+          >
+            <span className="text-accent">&gt;</span> RUN music.exe
+          </Link>
+          <Link
+            href="/video"
+            className="border border-foreground px-5 py-2.5 text-sm transition hover:border-accent hover:text-accent"
+          >
+            <span className="text-accent">&gt;</span> RUN video.exe
+          </Link>
+        </div>
       </section>
 
       <section className="grid gap-4 pb-24 sm:grid-cols-3">
         <Link
           href="/music"
-          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
-          style={{ animationDelay: "320ms" }}
+          className="group animate-fade-up transition hover:-translate-y-0.5"
+          style={{ animationDelay: "380ms" }}
         >
-          <h2 className="text-lg font-semibold">Music</h2>
-          <p className="mt-2 text-sm text-foreground/60">
-            Tracks, playlists, and projects I&apos;ve worked on.
-          </p>
+          <TerminalWindow title="music.exe">
+            <h2 className="font-display text-sm tracking-widest">MUSIC</h2>
+            <p className="mt-2 text-sm text-foreground/60">
+              Tracks, playlists, and projects I&apos;ve worked on.
+            </p>
+          </TerminalWindow>
         </Link>
         <Link
           href="/video"
-          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
-          style={{ animationDelay: "400ms" }}
+          className="group animate-fade-up transition hover:-translate-y-0.5"
+          style={{ animationDelay: "440ms" }}
         >
-          <h2 className="text-lg font-semibold">Video</h2>
-          <p className="mt-2 text-sm text-foreground/60">
-            Animated training and demo videos.
-          </p>
+          <TerminalWindow title="video.exe">
+            <h2 className="font-display text-sm tracking-widest">VIDEO</h2>
+            <p className="mt-2 text-sm text-foreground/60">
+              Animated training and demo videos.
+            </p>
+          </TerminalWindow>
         </Link>
         <Link
           href="/resume"
-          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
-          style={{ animationDelay: "480ms" }}
+          className="group animate-fade-up transition hover:-translate-y-0.5"
+          style={{ animationDelay: "500ms" }}
         >
-          <h2 className="text-lg font-semibold">Resume</h2>
-          <p className="mt-2 text-sm text-foreground/60">
-            My experience, skills, and background.
-          </p>
+          <TerminalWindow title="resume.exe">
+            <h2 className="font-display text-sm tracking-widest">RESUME</h2>
+            <p className="mt-2 text-sm text-foreground/60">
+              My experience, skills, and background.
+            </p>
+          </TerminalWindow>
         </Link>
       </section>
     </div>

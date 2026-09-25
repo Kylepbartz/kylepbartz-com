@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import PageHeader from "@/components/PageHeader";
+import TerminalWindow from "@/components/TerminalWindow";
 
 export const metadata: Metadata = {
   title: "Resume - Kyle Bartz",
@@ -99,101 +101,90 @@ const skills = [
 export default function ResumePage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="animate-fade-up text-4xl font-bold tracking-tight">
-            Resume
-          </h1>
-          <p className="mt-3 max-w-xl text-foreground/70">{profile}</p>
-        </div>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <PageHeader process="cv.exe" title="RESUME" subtitle={profile} />
         <a
           href="/resume.pdf"
           download
-          className="shrink-0 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90"
+          className="mb-10 shrink-0 border border-foreground px-5 py-2.5 text-sm transition hover:border-accent hover:text-accent"
         >
-          Download PDF
+          <span className="text-accent">&gt;</span> DOWNLOAD resume.pdf
         </a>
       </div>
 
-      <section className="mt-12">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
-          Experience
-        </h2>
-        <div className="mt-4 flex flex-col gap-8">
-          {experience.map((job) => (
-            <div key={job.role + job.company + job.period}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 className="text-lg font-semibold">
-                  {job.role} · {job.company}
-                </h3>
-                <span className="text-sm text-foreground/50">
-                  {job.period}
-                </span>
+      <div className="flex flex-col gap-6">
+        <TerminalWindow title="experience.log">
+          <div className="flex flex-col gap-8">
+            {experience.map((job) => (
+              <div key={job.role + job.company + job.period}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                  <h3 className="font-display text-xs tracking-widest sm:text-sm">
+                    {job.role.toUpperCase()} · {job.company.toUpperCase()}
+                  </h3>
+                  <span className="text-xs text-accent">{job.period}</span>
+                </div>
+                <p className="text-xs text-foreground/40">{job.location}</p>
+                {job.bullets.length > 0 && (
+                  <ul className="mt-2 flex flex-col gap-1 text-sm text-foreground/70">
+                    {job.bullets.map((bullet) => (
+                      <li key={bullet} className="flex gap-2">
+                        <span className="text-foreground/30">-</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <p className="text-sm text-foreground/50">{job.location}</p>
-              {job.bullets.length > 0 && (
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-foreground/70">
-                  {job.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </TerminalWindow>
 
-      <section className="mt-12">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
-          Education
-        </h2>
-        <div className="mt-4 flex flex-col gap-4">
-          {education.map((edu) => (
-            <div key={edu.credential}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 className="text-lg font-semibold">{edu.school}</h3>
-                <span className="text-sm text-foreground/50">
-                  {edu.period}
-                </span>
+        <TerminalWindow title="education.log">
+          <div className="flex flex-col gap-4">
+            {education.map((edu) => (
+              <div key={edu.credential}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                  <h3 className="font-display text-xs tracking-widest sm:text-sm">
+                    {edu.school.toUpperCase()}
+                  </h3>
+                  <span className="text-xs text-accent">{edu.period}</span>
+                </div>
+                <p className="text-sm text-foreground/70">
+                  {edu.credential} · {edu.location}
+                </p>
               </div>
-              <p className="text-sm text-foreground/70">
-                {edu.credential} · {edu.location}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </TerminalWindow>
 
-      <section className="mt-12">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
-          Skills
-        </h2>
-        <ul className="mt-4 flex flex-col gap-2 text-sm text-foreground/70">
-          {skills.map((skill) => (
-            <li key={skill} className="flex gap-2">
-              <span className="text-foreground/30">·</span>
-              <span>{skill}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+        <TerminalWindow title="skills.log">
+          <ul className="flex flex-col gap-2 text-sm text-foreground/70">
+            {skills.map((skill) => (
+              <li key={skill} className="flex gap-2">
+                <span className="text-accent">&gt;</span>
+                <span>{skill}</span>
+              </li>
+            ))}
+          </ul>
+        </TerminalWindow>
 
-      <section className="mt-12">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
-          Contact
-        </h2>
-        <div className="mt-4 flex flex-col gap-1 text-sm text-foreground/70">
-          <a
-            href="mailto:kyle@kylepbartz.com"
-            className="hover:text-foreground"
-          >
-            kyle@kylepbartz.com
-          </a>
-          <a href="tel:+14145819732" className="hover:text-foreground">
-            414.581.9732
-          </a>
-        </div>
-      </section>
+        <TerminalWindow title="contact.log">
+          <div className="flex flex-col gap-1 text-sm text-foreground/70">
+            <a
+              href="mailto:kyle@kylepbartz.com"
+              className="transition hover:text-accent"
+            >
+              <span className="text-accent">&gt;</span> kyle@kylepbartz.com
+            </a>
+            <a
+              href="tel:+14145819732"
+              className="transition hover:text-accent"
+            >
+              <span className="text-accent">&gt;</span> 414.581.9732
+            </a>
+          </div>
+        </TerminalWindow>
+      </div>
     </div>
   );
 }

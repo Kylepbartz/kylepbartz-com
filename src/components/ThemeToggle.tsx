@@ -82,10 +82,10 @@ export default function ThemeToggle() {
   const activeIndex = options.findIndex((option) => option.value === theme);
 
   return (
-    <div className="relative flex items-center gap-0.5 rounded-full border border-black/10 p-0.5 dark:border-white/10">
+    <div className="relative flex items-center gap-0.5 rounded-sm border border-(--border-color) p-0.5">
       <div
         aria-hidden
-        className={`absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-foreground ${
+        className={`absolute left-0.5 top-0.5 h-6 w-6 rounded-sm bg-accent ${
           mounted ? "transition-transform duration-300 ease-out" : ""
         }`}
         style={{ transform: `translateX(${activeIndex * STEP_PX}px)` }}
@@ -97,10 +97,10 @@ export default function ThemeToggle() {
           onClick={() => select(option.value)}
           aria-label={`${option.label} theme`}
           aria-pressed={theme === option.value}
-          className={`relative flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
+          className={`relative flex h-6 w-6 items-center justify-center rounded-sm transition-colors ${
             theme === option.value
               ? "text-background"
-              : "text-foreground/50 hover:text-foreground"
+              : "text-foreground/50 hover:text-accent"
           }`}
         >
           {option.icon}
