@@ -39,8 +39,9 @@ const themeInitScript = `
 (function () {
   try {
     var stored = localStorage.getItem("theme");
-    var theme = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.classList.add(theme);
+    if (stored === "light" || stored === "dark") {
+      document.documentElement.classList.add(stored);
+    }
   } catch (e) {}
 })();
 `;
