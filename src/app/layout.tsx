@@ -9,6 +9,9 @@ import CRTEffects from "@/components/CRTEffects";
 import PageTransition from "@/components/PageTransition";
 import CommandPalette from "@/components/CommandPalette";
 import KonamiCode from "@/components/KonamiCode";
+import IdleScreensaver from "@/components/IdleScreensaver";
+import ContextMenu from "@/components/ContextMenu";
+import BootSequence from "@/components/BootSequence";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -68,6 +71,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PageTransition />
         <CommandPalette />
         <KonamiCode />
+        <IdleScreensaver />
+        <ContextMenu />
+        <BootSequence />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
