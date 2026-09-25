@@ -27,10 +27,23 @@ export default function Home() {
         </div>
 
         <p
-          className="animate-fade-up text-[11px] tracking-[0.3em] text-foreground/50 uppercase sm:text-xs"
+          className="animate-fade-up text-[11px] tracking-[0.3em] uppercase sm:text-xs"
           style={{ animationDelay: "150ms" }}
         >
-          instructional.designer / audio.engineer / video.editor
+          {[
+            ["instructional", "designer"],
+            ["audio", "engineer"],
+            ["video", "editor"],
+          ].map(([noun, role], i, arr) => (
+            <span key={noun}>
+              <span className="text-syntax-keyword">{noun}</span>
+              <span className="text-foreground/30">.</span>
+              <span className="text-syntax-string">{role}</span>
+              {i < arr.length - 1 && (
+                <span className="text-foreground/30"> / </span>
+              )}
+            </span>
+          ))}
         </p>
 
         <p

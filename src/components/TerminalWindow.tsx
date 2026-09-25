@@ -22,7 +22,7 @@ export default function TerminalWindow({
             <span className="h-2 w-2 rounded-full border border-(--border-color)" />
             <span className="h-2 w-2 rounded-full border border-(--border-color)" />
           </span>
-          {title}
+          <span className="text-syntax-string">{title}</span>
         </span>
         <span className="text-accent">{status}</span>
       </div>

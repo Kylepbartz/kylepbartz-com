@@ -11,7 +11,7 @@ export default function PageHeader({
 }) {
   return (
     <div className="animate-fade-up mb-10">
-      <p className="font-display text-xs tracking-widest text-foreground/40">
+      <p className="font-display text-xs tracking-widest text-syntax-keyword">
         {process}
       </p>
       <p className="text-xs tracking-widest text-accent">

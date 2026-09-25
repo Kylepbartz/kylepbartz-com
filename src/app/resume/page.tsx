@@ -119,9 +119,17 @@ export default function ResumePage() {
               <div key={job.role + job.company + job.period}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                   <h3 className="font-display text-xs tracking-widest sm:text-sm">
-                    {job.role.toUpperCase()} · {job.company.toUpperCase()}
+                    <span className="text-syntax-string">
+                      {job.role.toUpperCase()}
+                    </span>{" "}
+                    <span className="text-foreground/30">·</span>{" "}
+                    <span className="text-syntax-keyword">
+                      {job.company.toUpperCase()}
+                    </span>
                   </h3>
-                  <span className="text-xs text-accent">{job.period}</span>
+                  <span className="text-xs text-syntax-number">
+                    {job.period}
+                  </span>
                 </div>
                 <p className="text-xs text-foreground/40">{job.location}</p>
                 {job.bullets.length > 0 && (
@@ -144,10 +152,12 @@ export default function ResumePage() {
             {education.map((edu) => (
               <div key={edu.credential}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                  <h3 className="font-display text-xs tracking-widest sm:text-sm">
+                  <h3 className="font-display text-xs tracking-widest text-syntax-string sm:text-sm">
                     {edu.school.toUpperCase()}
                   </h3>
-                  <span className="text-xs text-accent">{edu.period}</span>
+                  <span className="text-xs text-syntax-number">
+                    {edu.period}
+                  </span>
                 </div>
                 <p className="text-sm text-foreground/70">
                   {edu.credential} · {edu.location}
@@ -161,7 +171,7 @@ export default function ResumePage() {
           <ul className="flex flex-col gap-2 text-sm text-foreground/70">
             {skills.map((skill) => (
               <li key={skill} className="flex gap-2">
-                <span className="text-accent">&gt;</span>
+                <span className="text-syntax-keyword">&gt;</span>
                 <span>{skill}</span>
               </li>
             ))}

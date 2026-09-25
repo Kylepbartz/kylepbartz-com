@@ -5,6 +5,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScanlineOverlay from "@/components/ScanlineOverlay";
+import PageTransition from "@/components/PageTransition";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {themeInitScript}
         </Script>
         <ScanlineOverlay />
+        <PageTransition />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
