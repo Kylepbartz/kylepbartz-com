@@ -9,6 +9,10 @@ const SEQUENCE = [
   "ArrowDown",
   "ArrowLeft",
   "ArrowRight",
+  "ArrowLeft",
+  "ArrowRight",
+  "b",
+  "a",
 ];
 
 export default function KonamiCode() {
