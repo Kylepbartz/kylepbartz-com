@@ -34,10 +34,10 @@ export default function Home() {
           </div>
         </div>
         <Image
-          src="/images/kyle-portrait.jpg"
+          src="/images/kyle-portrait.webp"
           alt="Portrait of Kyle Bartz"
           width={320}
-          height={368}
+          height={320}
           priority
           className="w-48 shrink-0 rounded-2xl object-cover sm:w-64"
         />
