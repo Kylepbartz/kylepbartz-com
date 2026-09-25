@@ -42,7 +42,7 @@ function play(buffer: AudioBuffer | null) {
   const source = audioCtx.createBufferSource();
   source.buffer = buffer;
   const gain = audioCtx.createGain();
-  gain.gain.value = 0.4;
+  gain.gain.value = 0.15;
   source.connect(gain).connect(audioCtx.destination);
   source.start(0);
 }
