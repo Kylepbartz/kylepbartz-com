@@ -35,6 +35,7 @@ export default function BootSequence() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       sessionStorage.setItem("booted", "1");
+      window.dispatchEvent(new Event("boot-complete"));
       return;
     }
 
@@ -57,6 +58,7 @@ export default function BootSequence() {
     const hideId = setTimeout(() => {
       setActive(false);
       sessionStorage.setItem("booted", "1");
+      window.dispatchEvent(new Event("boot-complete"));
     }, LINES.length * LINE_MS + HOLD_MS);
 
     return () => {

@@ -11,6 +11,7 @@ import CommandPalette from "@/components/CommandPalette";
 import KonamiCode from "@/components/KonamiCode";
 import ContextMenu from "@/components/ContextMenu";
 import BootSequence from "@/components/BootSequence";
+import AmbientHum from "@/components/AmbientHum";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <KonamiCode />
         <ContextMenu />
         <BootSequence />
+        <AmbientHum />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
