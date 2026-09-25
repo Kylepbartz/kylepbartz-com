@@ -48,15 +48,6 @@ export default function ContextMenu() {
       label: "open_terminal.exe",
       action: () => window.dispatchEvent(new Event("open-terminal")),
     },
-    {
-      label: "view_source.exe",
-      action: () =>
-        window.open(
-          "https://github.com/Kylepbartz/kylepbartz-com",
-          "_blank",
-          "noreferrer"
-        ),
-    },
   ];
 
   const menuWidth = 190;
