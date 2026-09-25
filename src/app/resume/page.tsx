@@ -101,7 +101,9 @@ export default function ResumePage() {
     <div className="mx-auto max-w-3xl px-6 py-16">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Resume</h1>
+          <h1 className="animate-fade-up text-4xl font-bold tracking-tight">
+            Resume
+          </h1>
           <p className="mt-3 max-w-xl text-foreground/70">{profile}</p>
         </div>
         <a

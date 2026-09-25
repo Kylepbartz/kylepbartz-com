@@ -8,7 +8,9 @@ export const metadata: Metadata = {
 export default function VideoPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-4xl font-bold tracking-tight">Video</h1>
+      <h1 className="animate-fade-up text-4xl font-bold tracking-tight">
+        Video
+      </h1>
       <p className="mt-3 text-foreground/70">
         Animated training and demo videos created in Vyond.
       </p>

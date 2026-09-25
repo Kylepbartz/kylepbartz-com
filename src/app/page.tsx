@@ -6,19 +6,28 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       <section className="flex min-h-[70vh] flex-col-reverse items-center gap-10 py-24 sm:flex-row sm:justify-between">
         <div className="flex flex-col gap-6">
-          <p className="text-sm font-medium uppercase tracking-widest text-foreground/50">
+          <p className="animate-fade-up text-sm font-medium uppercase tracking-widest text-foreground/50">
             Hi, I&apos;m
           </p>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
+          <h1
+            className="animate-fade-up text-5xl font-bold tracking-tight sm:text-6xl"
+            style={{ animationDelay: "80ms" }}
+          >
             Kyle Bartz
           </h1>
-          <p className="max-w-xl text-lg text-foreground/70">
+          <p
+            className="animate-fade-up max-w-xl text-lg text-foreground/70"
+            style={{ animationDelay: "160ms" }}
+          >
             Instructional designer and audio engineer with a passion for
             connecting people and ideas. Since I was a kid in Milwaukee
             I&apos;ve loved music and recording. This is where I keep my
             design work, music, and video projects in one place.
           </p>
-          <div className="flex gap-4 pt-2">
+          <div
+            className="animate-fade-up flex gap-4 pt-2"
+            style={{ animationDelay: "240ms" }}
+          >
             <Link
               href="/music"
               className="rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90"
@@ -39,14 +48,15 @@ export default function Home() {
           width={320}
           height={320}
           priority
-          className="w-48 shrink-0 rounded-2xl object-cover sm:w-64"
+          className="animate-fade-up w-48 shrink-0 rounded-2xl object-cover sm:w-64"
         />
       </section>
 
       <section className="grid gap-4 pb-24 sm:grid-cols-3">
         <Link
           href="/music"
-          className="group rounded-2xl border border-black/10 p-6 transition hover:border-foreground/30 dark:border-white/10"
+          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
+          style={{ animationDelay: "320ms" }}
         >
           <h2 className="text-lg font-semibold">Music</h2>
           <p className="mt-2 text-sm text-foreground/60">
@@ -55,7 +65,8 @@ export default function Home() {
         </Link>
         <Link
           href="/video"
-          className="group rounded-2xl border border-black/10 p-6 transition hover:border-foreground/30 dark:border-white/10"
+          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
+          style={{ animationDelay: "400ms" }}
         >
           <h2 className="text-lg font-semibold">Video</h2>
           <p className="mt-2 text-sm text-foreground/60">
@@ -64,7 +75,8 @@ export default function Home() {
         </Link>
         <Link
           href="/resume"
-          className="group rounded-2xl border border-black/10 p-6 transition hover:border-foreground/30 dark:border-white/10"
+          className="group animate-fade-up rounded-2xl border border-black/10 p-6 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md dark:border-white/10"
+          style={{ animationDelay: "480ms" }}
         >
           <h2 className="text-lg font-semibold">Resume</h2>
           <p className="mt-2 text-sm text-foreground/60">

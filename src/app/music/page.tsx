@@ -8,7 +8,9 @@ export const metadata: Metadata = {
 export default function MusicPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-4xl font-bold tracking-tight">Music</h1>
+      <h1 className="animate-fade-up text-4xl font-bold tracking-tight">
+        Music
+      </h1>
       <p className="mt-3 text-foreground/70">
         A collection of tracks I&apos;ve written, produced, or performed.
         More on{" "}
