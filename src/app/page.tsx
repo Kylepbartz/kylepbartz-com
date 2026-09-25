@@ -6,14 +6,21 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-6">
       <section className="flex flex-col items-center gap-8 py-20 text-center">
-        <div className="animate-fade-up overflow-hidden rounded-sm border-2 border-foreground">
+        <div className="group/portrait animate-fade-up relative aspect-square w-32 overflow-hidden rounded-sm border-2 border-foreground sm:w-40">
           <Image
             src="/images/kyle-portrait.webp"
             alt="Portrait of Kyle Bartz"
-            width={200}
-            height={200}
+            fill
+            sizes="(min-width: 640px) 160px, 128px"
             priority
-            className="w-32 shrink-0 object-cover sm:w-40"
+            className="object-cover transition-opacity duration-300 group-hover/portrait:opacity-0"
+          />
+          <Image
+            src="/images/kyle-portrait-alt.webp"
+            alt="Portrait of Kyle Bartz smiling"
+            fill
+            sizes="(min-width: 640px) 160px, 128px"
+            className="object-cover opacity-0 transition-opacity duration-300 group-hover/portrait:opacity-100"
           />
         </div>
 
