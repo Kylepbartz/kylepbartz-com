@@ -24,7 +24,11 @@ function getRedis() {
 }
 
 async function topEntries(redis: Redis): Promise<LeaderboardEntry[]> {
-  const members = await redis.zrange<string[]>(
+  // @upstash/redis auto-deserializes responses (it JSON.parses every string
+  // it gets back), so members already arrive as parsed objects rather than
+  // the JSON strings we stored -- only fall back to JSON.parse for a raw
+  // string in case that behavior ever changes.
+  const members = await redis.zrange<unknown[]>(
     LEADERBOARD_KEY,
     0,
     LEADERBOARD_MAX_ENTRIES - 1,
@@ -33,7 +37,7 @@ async function topEntries(redis: Redis): Promise<LeaderboardEntry[]> {
   return members
     .map((raw) => {
       try {
-        return JSON.parse(raw) as LeaderboardEntry;
+        return (typeof raw === "string" ? JSON.parse(raw) : raw) as LeaderboardEntry;
       } catch {
         return null;
       }
@@ -92,7 +96,7 @@ export async function POST(request: Request) {
 
   try {
     const redis = getRedis();
-    const zaddResult = await redis.zadd(LEADERBOARD_KEY, {
+    await redis.zadd(LEADERBOARD_KEY, {
       score: entry.score,
       member: JSON.stringify(entry),
     });
@@ -108,16 +112,10 @@ export async function POST(request: Request) {
       );
     }
     const entries = await topEntries(redis);
-    return NextResponse.json({
-      entries,
-      debug: { zaddResult, count, key: LEADERBOARD_KEY, wrote: entry },
-    });
-  } catch (err) {
+    return NextResponse.json({ entries });
+  } catch {
     return NextResponse.json(
-      {
-        error: "leaderboard unavailable",
-        debug: String(err),
-      },
+      { error: "leaderboard unavailable" },
       { status: 503 }
     );
   }
