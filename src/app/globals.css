@@ -10,6 +10,11 @@
   --syntax-string: #a15c1c;
   --syntax-keyword: #7c3aed;
   --syntax-number: #1d4ed8;
+  --cursor-default: url("/cursors/dark/normal-select.cur"), default;
+  --cursor-pointer: url("/cursors/dark/select.cur"), pointer;
+  --cursor-text: url("/cursors/dark/text-select.cur"), text;
+  --cursor-move: url("/cursors/dark/move.cur"), move;
+  --cursor-not-allowed: url("/cursors/dark/unavailable.cur"), not-allowed;
 }
 
 @theme inline {
@@ -33,6 +38,13 @@
     --syntax-string: #e2b370;
     --syntax-keyword: #c792ea;
     --syntax-number: #82aaff;
+    /* Dark backgrounds need the light-colored (white-on-black) cursor set
+       to stay visible -- opposite of the folder name, matching the fill. */
+    --cursor-default: url("/cursors/light/normal-select.cur"), default;
+    --cursor-pointer: url("/cursors/light/select.cur"), pointer;
+    --cursor-text: url("/cursors/light/text-select.cur"), text;
+    --cursor-move: url("/cursors/light/move.cur"), move;
+    --cursor-not-allowed: url("/cursors/light/unavailable.cur"), not-allowed;
   }
 }
 
@@ -44,6 +56,11 @@
   --syntax-string: #e2b370;
   --syntax-keyword: #c792ea;
   --syntax-number: #82aaff;
+  --cursor-default: url("/cursors/light/normal-select.cur"), default;
+  --cursor-pointer: url("/cursors/light/select.cur"), pointer;
+  --cursor-text: url("/cursors/light/text-select.cur"), text;
+  --cursor-move: url("/cursors/light/move.cur"), move;
+  --cursor-not-allowed: url("/cursors/light/unavailable.cur"), not-allowed;
   color-scheme: dark;
 }
 
@@ -55,6 +72,11 @@
   --syntax-string: #a15c1c;
   --syntax-keyword: #7c3aed;
   --syntax-number: #1d4ed8;
+  --cursor-default: url("/cursors/dark/normal-select.cur"), default;
+  --cursor-pointer: url("/cursors/dark/select.cur"), pointer;
+  --cursor-text: url("/cursors/dark/text-select.cur"), text;
+  --cursor-move: url("/cursors/dark/move.cur"), move;
+  --cursor-not-allowed: url("/cursors/dark/unavailable.cur"), not-allowed;
   color-scheme: light;
 }
 
@@ -62,6 +84,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-mono), monospace;
+  cursor: var(--cursor-default);
+}
+
+a,
+button,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+label[for],
+select,
+summary,
+.cursor-pointer {
+  cursor: var(--cursor-pointer);
+}
+
+input,
+textarea {
+  cursor: var(--cursor-text);
+}
+
+.cursor-move {
+  cursor: var(--cursor-move);
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: var(--cursor-not-allowed);
 }
 
 ::selection {
