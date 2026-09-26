@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useProcessRegistration } from "@/lib/processRegistry";
 
 export const OPEN_SYSINFO_EVENT = "toggle-sysinfo";
 
@@ -55,6 +56,8 @@ export default function SysInfoWidget() {
   const widgetRef = useRef<HTMLDivElement>(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+
+  useProcessRegistration("sysinfo.exe", open);
 
   useEffect(() => {
     function onToggle() {

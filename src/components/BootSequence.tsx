@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getSiteAudioContext, loadAudioBuffer } from "@/lib/siteAudio";
+import { useBusyCursor } from "@/lib/busyCursor";
 
 const LINES = [
   "KYLEPBARTZ.OS v1.0.2",
@@ -39,6 +40,10 @@ export default function BootSequence() {
   const bufferRef = useRef<AudioBuffer | null>(null);
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
   const autoBootRef = useRef(false);
+
+  // The boot screen is always black regardless of the site's light/dark
+  // theme, so force the light-colored (white-on-black) cursor variant.
+  useBusyCursor(stage === "booting", undefined, true);
 
   function powerOn() {
     setStage("booting");

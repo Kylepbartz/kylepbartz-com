@@ -10,10 +10,17 @@ import { triggerKonami } from "@/components/KonamiCode";
 import { OPEN_CLOCK_EVENT } from "@/components/ClockWidget";
 import { OPEN_WEATHER_EVENT } from "@/components/WeatherWidget";
 import { OPEN_SYSINFO_EVENT } from "@/components/SysInfoWidget";
+import {
+  listRunningProcesses,
+  isProcessRunning,
+  type ProcessName,
+} from "@/lib/processRegistry";
+import { getManPage } from "@/lib/manPages";
 
 type Line = { type: "input" | "output"; text: string };
 
 const OPEN_SOUND_SRC = "/audio/terminal-open.wav";
+const CLOSE_SOUND_SRC = "/audio/terminal-close.wav";
 
 const routes: Record<string, string> = {
   "~": "/",
@@ -23,6 +30,15 @@ const routes: Record<string, string> = {
   video: "/video",
   resume: "/resume",
   cv: "/resume",
+};
+
+// Each widget toggles via its own event; since `kill` only ever fires this
+// when the process is confirmed running (via isProcessRunning), toggling is
+// equivalent to closing it.
+const PROCESS_EVENTS: Record<ProcessName, () => void> = {
+  "clock.exe": () => window.dispatchEvent(new Event(OPEN_CLOCK_EVENT)),
+  "weather.exe": () => window.dispatchEvent(new Event(OPEN_WEATHER_EVENT)),
+  "sysinfo.exe": () => window.dispatchEvent(new Event(OPEN_SYSINFO_EVENT)),
 };
 
 const HELP_BASIC = [
@@ -57,6 +73,9 @@ const HELP_ADVANCED = [
   "  clock [city]      toggle clock widget (optionally for a city)",
   "  weather [city]    toggle weather widget (optionally for a city)",
   "  sysinfo           toggle a draggable sysinfo widget",
+  "  ps | top          list running widgets",
+  "  kill <process>    close a running widget by name",
+  "  man <command>     print a command's manual page",
   "  clear             clear the screen",
   "  exit              close this terminal",
 ].join("\n");
@@ -73,6 +92,13 @@ export default function CommandPalette() {
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const hasOpenedRef = useRef(false);
+  // Command history, like a real shell: chronological order (oldest first).
+  // historyStepRef counts how many steps back from the newest entry the
+  // input is currently showing; -1 means "not navigating, live typing."
+  const historyRef = useRef<string[]>([]);
+  const historyStepRef = useRef(-1);
+  const draftRef = useRef("");
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -105,13 +131,17 @@ export default function CommandPalette() {
   }, []);
 
   useEffect(() => {
+    // Runs immediately off the gesture that opened/closed the terminal (a
+    // keypress or click), so playback is guaranteed to be allowed.
     if (open) {
+      hasOpenedRef.current = true;
       inputRef.current?.focus();
       primeKeyClicks();
-      // Runs immediately off the gesture that opened the terminal (the "/"
-      // keypress, a click, or the konami sequence's last keystroke), so
-      // playback is guaranteed to be allowed.
       const audio = new Audio(OPEN_SOUND_SRC);
+      audio.volume = 0.3;
+      audio.play().catch(() => {});
+    } else if (hasOpenedRef.current) {
+      const audio = new Audio(CLOSE_SOUND_SRC);
       audio.volume = 0.3;
       audio.play().catch(() => {});
     }
@@ -128,7 +158,6 @@ export default function CommandPalette() {
   function toggleAdvanced(next: boolean) {
     setAdvanced(next);
     if (!next) setCwd("/");
-    print(`advanced mode: ${next ? "on" : "off"}`);
   }
 
   function run(raw: string) {
@@ -266,6 +295,63 @@ export default function CommandPalette() {
         window.dispatchEvent(new Event(OPEN_SYSINFO_EVENT));
         print("toggled sysinfo widget");
         break;
+      case "ps":
+      case "top": {
+        if (!advanced) {
+          print(`command not found: ${cmd}`);
+          break;
+        }
+        const procs = listRunningProcesses();
+        if (procs.length === 0) {
+          print("no widgets running");
+        } else {
+          print(
+            [
+              "PID  NAME       STATUS",
+              ...procs.map(
+                (name, i) =>
+                  `${(i + 1).toString().padStart(3, "0")}  ${name.padEnd(9)}  running`
+              ),
+            ].join("\n")
+          );
+        }
+        break;
+      }
+      case "kill": {
+        if (!advanced) {
+          print(`command not found: ${cmd}`);
+          break;
+        }
+        const raw = args[0];
+        if (!raw) {
+          print("usage: kill <process>");
+          break;
+        }
+        const name = (
+          raw.toLowerCase().endsWith(".exe") ? raw : `${raw}.exe`
+        ).toLowerCase() as ProcessName;
+        if (!isProcessRunning(name)) {
+          print(`kill: (${raw}): No such process`);
+          break;
+        }
+        PROCESS_EVENTS[name]();
+        print(`${name}: terminated`);
+        break;
+      }
+      case "man": {
+        if (!advanced) {
+          print(`command not found: ${cmd}`);
+          break;
+        }
+        const target = args[0];
+        if (!target) {
+          print("What manual page do you want?");
+          break;
+        }
+        const page = getManPage(target);
+        print(page ?? `No manual entry for ${target}`);
+        break;
+      }
       case "reboot":
         print("rebooting...");
         sessionStorage.removeItem("booted");
@@ -303,7 +389,7 @@ export default function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-start justify-center bg-background/80 p-4 pt-[10vh] backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-[70] flex items-start justify-center bg-background/80 p-4 pt-[6vh] backdrop-blur-sm sm:p-6"
       onClick={() => setOpen(false)}
     >
       <div
@@ -343,7 +429,7 @@ export default function CommandPalette() {
           </span>
         </div>
 
-        <div className="max-h-[50vh] overflow-y-auto px-4 py-3 text-sm">
+        <div className="max-h-[65vh] overflow-y-auto px-4 py-3 text-sm">
           {lines.map((line, i) => (
             <pre
               key={i}
@@ -369,6 +455,11 @@ export default function CommandPalette() {
           className="flex items-center gap-2 border-t border-(--border-color) px-4 py-3"
           onSubmit={(e) => {
             e.preventDefault();
+            const trimmed = value.trim();
+            if (trimmed && historyRef.current.at(-1) !== trimmed) {
+              historyRef.current.push(trimmed);
+            }
+            historyStepRef.current = -1;
             run(value);
             setValue("");
           }}
@@ -377,7 +468,32 @@ export default function CommandPalette() {
           <input
             ref={inputRef}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              historyStepRef.current = -1;
+              setValue(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              const hist = historyRef.current;
+              if (e.key === "ArrowUp") {
+                e.preventDefault();
+                if (hist.length === 0) return;
+                if (historyStepRef.current === -1) draftRef.current = value;
+                historyStepRef.current = Math.min(
+                  historyStepRef.current + 1,
+                  hist.length - 1
+                );
+                setValue(hist[hist.length - 1 - historyStepRef.current]);
+              } else if (e.key === "ArrowDown") {
+                e.preventDefault();
+                if (historyStepRef.current === -1) return;
+                historyStepRef.current -= 1;
+                setValue(
+                  historyStepRef.current === -1
+                    ? draftRef.current
+                    : hist[hist.length - 1 - historyStepRef.current]
+                );
+              }
+            }}
             className="flex-1 bg-transparent font-mono text-sm text-foreground outline-none"
             style={{ caretColor: "var(--accent)" }}
             autoComplete="off"

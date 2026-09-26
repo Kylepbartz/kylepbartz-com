@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Silkscreen, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -17,6 +18,7 @@ import ContextMenu from "@/components/ContextMenu";
 import BootSequence from "@/components/BootSequence";
 import GlobalKeyClicks from "@/components/GlobalKeyClicks";
 import GlobalMouseClicks from "@/components/GlobalMouseClicks";
+import { getSiteUrl } from "@/lib/siteUrl";
 
 const silkscreen = Silkscreen({
   variable: "--font-display",
@@ -30,11 +32,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ||
-      (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
-      "http://localhost:3000"
-  ),
+  metadataBase: new URL(getSiteUrl()),
   title: "Kyle Bartz - Portfolio",
   description: "Music, video, and resume of Kyle Bartz.",
   openGraph: {
@@ -87,6 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { geocodeCity, geocodeDisplayName } from "@/lib/geocode";
+import { useProcessRegistration } from "@/lib/processRegistry";
 
 export const OPEN_WEATHER_EVENT = "toggle-weather";
 
@@ -70,6 +71,8 @@ export default function WeatherWidget() {
   const widgetRef = useRef<HTMLDivElement>(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+
+  useProcessRegistration("weather.exe", open);
 
   useEffect(() => {
     function onToggle(e: Event) {

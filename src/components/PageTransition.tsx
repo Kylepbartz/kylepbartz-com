@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useBusyCursor } from "@/lib/busyCursor";
 
 const commands: Record<string, { label: string; cmd: string }> = {
   "/": { label: "/home", cmd: "cd ~ && ./boot.sh" },
@@ -18,10 +19,13 @@ export default function PageTransition() {
   const isFirstRender = useRef(true);
   const [active, setActive] = useState(false);
   const [typed, setTyped] = useState("");
+  const overlayRef = useRef<HTMLDivElement>(null);
   const target = commands[pathname] ?? {
     label: pathname,
     cmd: `cd ${pathname}`,
   };
+
+  useBusyCursor(active, overlayRef);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -60,7 +64,8 @@ export default function PageTransition() {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex cursor-pointer flex-col items-center justify-center gap-2 bg-background"
+      ref={overlayRef}
+      className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-2 bg-background"
       onClick={() => setActive(false)}
     >
       <p className="text-xs tracking-widest text-foreground/40">

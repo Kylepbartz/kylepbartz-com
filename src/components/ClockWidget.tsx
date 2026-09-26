@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { geocodeCity, geocodeDisplayName } from "@/lib/geocode";
+import { useProcessRegistration } from "@/lib/processRegistry";
 
 export const OPEN_CLOCK_EVENT = "toggle-clock";
 
@@ -38,6 +39,8 @@ export default function ClockWidget() {
   const widgetRef = useRef<HTMLDivElement>(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+
+  useProcessRegistration("clock.exe", open);
 
   useEffect(() => {
     function onToggle(e: Event) {
