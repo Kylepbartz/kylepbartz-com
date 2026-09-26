@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+const SOUND_SRC = "/audio/konami.m4a";
+
 const SEQUENCE = [
   "ArrowUp",
   "ArrowUp",
@@ -15,6 +17,17 @@ const SEQUENCE = [
   "a",
 ];
 
+/** Shared by the real key sequence and the hidden "galaga" terminal command
+ * so both trigger the exact same glitch + sound + game-launch effect. */
+export function triggerKonami() {
+  document.body.classList.add("glitch");
+  setTimeout(() => document.body.classList.remove("glitch"), 600);
+  const audio = new Audio(SOUND_SRC);
+  audio.volume = 0.3;
+  audio.play().catch(() => {});
+  window.dispatchEvent(new Event("konami-code"));
+}
+
 export default function KonamiCode() {
   const progress = useRef(0);
 
@@ -27,9 +40,9 @@ export default function KonamiCode() {
         progress.current += 1;
         if (progress.current === SEQUENCE.length) {
           progress.current = 0;
-          document.body.classList.add("glitch");
-          setTimeout(() => document.body.classList.remove("glitch"), 600);
-          window.dispatchEvent(new Event("konami-code"));
+          // The final keystroke of the sequence is a genuine user gesture,
+          // so this is guaranteed to be allowed to play.
+          triggerKonami();
         }
       } else {
         progress.current = key === SEQUENCE[0] ? 1 : 0;

@@ -38,41 +38,7 @@ export default function BootSequence() {
   const cleanupRef = useRef<() => void>(() => {});
   const bufferRef = useRef<AudioBuffer | null>(null);
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("booted")) {
-      window.dispatchEvent(new CustomEvent(BOOT_COMPLETE_EVENT));
-      return;
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      sessionStorage.setItem("booted", "1");
-      window.dispatchEvent(new CustomEvent(BOOT_COMPLETE_EVENT));
-      return;
-    }
-
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time first-visit check, gated by sessionStorage so it never re-fires
-    setStage("awaiting-power");
-
-    // Preload and decode the boot sound now so it can start the instant
-    // LAUNCH is pressed, with its exact end time known up front.
-    loadAudioBuffer(getSiteAudioContext(), SOUND_SRC)
-      .then((buffer) => {
-        bufferRef.current = buffer;
-      })
-      .catch(() => {});
-
-    return () => cleanupRef.current();
-  }, []);
-
-  useEffect(() => {
-    if (stage !== "awaiting-power") return;
-    function onKeyDown() {
-      powerOn();
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [stage]);
+  const autoBootRef = useRef(false);
 
   function powerOn() {
     setStage("booting");
@@ -128,6 +94,52 @@ export default function BootSequence() {
       sourceRef.current = null;
     };
   }
+
+  useEffect(() => {
+    if (sessionStorage.getItem("booted")) {
+      window.dispatchEvent(new CustomEvent(BOOT_COMPLETE_EVENT));
+      return;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      sessionStorage.setItem("booted", "1");
+      window.dispatchEvent(new CustomEvent(BOOT_COMPLETE_EVENT));
+      return;
+    }
+
+    // The "reboot" terminal command sets this to skip the LAUNCH gate and
+    // drop straight into the boot animation, as if it had just been clicked.
+    if (sessionStorage.getItem("autoboot")) {
+      sessionStorage.removeItem("autoboot");
+      autoBootRef.current = true;
+    }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time first-visit check, gated by sessionStorage so it never re-fires
+    setStage("awaiting-power");
+
+    // Preload and decode the boot sound now so it can start the instant
+    // LAUNCH is pressed, with its exact end time known up front.
+    loadAudioBuffer(getSiteAudioContext(), SOUND_SRC)
+      .then((buffer) => {
+        bufferRef.current = buffer;
+        if (autoBootRef.current) {
+          autoBootRef.current = false;
+          powerOn();
+        }
+      })
+      .catch(() => {});
+
+    return () => cleanupRef.current();
+  }, []);
+
+  useEffect(() => {
+    if (stage !== "awaiting-power") return;
+    function onKeyDown() {
+      powerOn();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [stage]);
 
   if (stage === "idle") return null;
 

@@ -4,8 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { setTheme } from "@/lib/theme";
 import { primeKeyClicks } from "@/lib/keyClicks";
+import { rootFiles, projectFiles, projectsDirName } from "@/lib/vfs";
+import { email, phone, linkedin } from "@/data/contact";
+import { triggerKonami } from "@/components/KonamiCode";
+import { OPEN_CLOCK_EVENT } from "@/components/ClockWidget";
+import { OPEN_WEATHER_EVENT } from "@/components/WeatherWidget";
+import { OPEN_SYSINFO_EVENT } from "@/components/SysInfoWidget";
 
 type Line = { type: "input" | "output"; text: string };
+
+const OPEN_SOUND_SRC = "/audio/terminal-open.wav";
 
 const routes: Record<string, string> = {
   "~": "/",
@@ -17,7 +25,7 @@ const routes: Record<string, string> = {
   cv: "/resume",
 };
 
-const HELP = [
+const HELP_BASIC = [
   "available commands:",
   "  help              show this list",
   "  ls                list pages",
@@ -26,6 +34,29 @@ const HELP = [
   "  contact           contact info",
   "  theme <mode>      light | dark | system",
   "  resume            open the resume page",
+  "  reboot            reboot the site back to the startup sequence",
+  "  clock [city]      toggle clock widget (optionally for a city)",
+  "  weather [city]    toggle weather widget (optionally for a city)",
+  "  sysinfo           toggle a draggable sysinfo widget",
+  "  clear             clear the screen",
+  "  exit              close this terminal",
+].join("\n");
+
+const HELP_ADVANCED = [
+  "available commands:",
+  "  help              show this list",
+  "  ls [dir]          list pages and files (try: ls projects)",
+  "  cat <file>        print a file's contents (try: cat about.txt)",
+  "  cd <page|dir|..>  go to a page or virtual directory",
+  "  pwd               print working directory",
+  "  whoami            about me",
+  "  contact           contact info",
+  "  theme <mode>      light | dark | system",
+  "  resume            open the resume page",
+  "  reboot            reboot the site back to the startup sequence",
+  "  clock [city]      toggle clock widget (optionally for a city)",
+  "  weather [city]    toggle weather widget (optionally for a city)",
+  "  sysinfo           toggle a draggable sysinfo widget",
   "  clear             clear the screen",
   "  exit              close this terminal",
 ].join("\n");
@@ -35,6 +66,8 @@ export default function CommandPalette() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [cwd, setCwd] = useState<"/" | "/projects">("/");
+  const [advanced, setAdvanced] = useState(false);
   const [lines, setLines] = useState<Line[]>([
     { type: "output", text: 'type "help" to see available commands' },
   ]);
@@ -65,21 +98,9 @@ export default function CommandPalette() {
     function onOpenRequest() {
       setOpen(true);
     }
-    function onKonami() {
-      setOpen(true);
-      setLines((prev) => [
-        ...prev,
-        {
-          type: "output",
-          text: "cheat code accepted.\nunlocked: nothing, there's no hidden game here.\nbut nice job remembering the konami code.",
-        },
-      ]);
-    }
     window.addEventListener("open-terminal", onOpenRequest);
-    window.addEventListener("konami-code", onKonami);
     return () => {
       window.removeEventListener("open-terminal", onOpenRequest);
-      window.removeEventListener("konami-code", onKonami);
     };
   }, []);
 
@@ -87,6 +108,12 @@ export default function CommandPalette() {
     if (open) {
       inputRef.current?.focus();
       primeKeyClicks();
+      // Runs immediately off the gesture that opened the terminal (the "/"
+      // keypress, a click, or the konami sequence's last keystroke), so
+      // playback is guaranteed to be allowed.
+      const audio = new Audio(OPEN_SOUND_SRC);
+      audio.volume = 0.3;
+      audio.play().catch(() => {});
     }
   }, [open]);
 
@@ -96,6 +123,12 @@ export default function CommandPalette() {
 
   function print(text: string) {
     setLines((prev) => [...prev, { type: "output", text }]);
+  }
+
+  function toggleAdvanced(next: boolean) {
+    setAdvanced(next);
+    if (!next) setCwd("/");
+    print(`advanced mode: ${next ? "on" : "off"}`);
   }
 
   function run(raw: string) {
@@ -108,13 +141,61 @@ export default function CommandPalette() {
 
     switch (cmd) {
       case "help":
-        print(HELP);
+        print(advanced ? HELP_ADVANCED : HELP_BASIC);
         break;
-      case "ls":
-        print("home  music  video  resume");
+      case "ls": {
+        if (!advanced) {
+          print("home  music  video  resume");
+          break;
+        }
+        const dir = args[0]?.toLowerCase().replace(/\/$/, "");
+        if (dir === projectsDirName) {
+          print(projectFiles.map((f) => f.name).join("  "));
+        } else if (!dir && cwd === "/projects") {
+          print(projectFiles.map((f) => f.name).join("  "));
+        } else if (!dir) {
+          print(
+            [
+              "home",
+              "music",
+              "video",
+              "resume",
+              ...rootFiles.map((f) => f.name),
+              `${projectsDirName}/`,
+            ].join("  ")
+          );
+        } else {
+          print(`ls: cannot access '${args[0]}': No such file or directory`);
+        }
         break;
+      }
+      case "cat": {
+        if (!advanced) {
+          print(`command not found: ${cmd}`);
+          break;
+        }
+        const arg = args[0];
+        if (!arg) {
+          print("usage: cat <file>");
+          break;
+        }
+        const [dirPart, filePart] = arg.includes("/")
+          ? arg.split("/")
+          : [cwd === "/projects" ? projectsDirName : "", arg];
+        const files =
+          dirPart.toLowerCase() === projectsDirName ? projectFiles : rootFiles;
+        const file = files.find(
+          (f) => f.name.toLowerCase() === filePart.toLowerCase()
+        );
+        if (file) {
+          print(file.content);
+        } else {
+          print(`cat: ${arg}: No such file or directory`);
+        }
+        break;
+      }
       case "pwd":
-        print(pathname);
+        print(cwd === "/projects" ? "/projects" : pathname);
         break;
       case "whoami":
         print(
@@ -122,9 +203,7 @@ export default function CommandPalette() {
         );
         break;
       case "contact":
-        print(
-          "email: kyle@kylepbartz.com\nphone: 414.581.9732\nlinkedin: linkedin.com/in/kyle-bartz-277b8731"
-        );
+        print(`email: ${email}\nphone: ${phone}\nlinkedin: ${linkedin}`);
         break;
       case "date":
         print(new Date().toString());
@@ -152,11 +231,59 @@ export default function CommandPalette() {
         router.push("/resume");
         print("-> /resume");
         break;
+      case "galaga":
+        print("cheat code accepted. good memory.");
+        triggerKonami();
+        setOpen(false);
+        return;
+      case "clock": {
+        const query = args.join(" ").trim();
+        if (query) {
+          window.dispatchEvent(
+            new CustomEvent(OPEN_CLOCK_EVENT, { detail: { query } })
+          );
+          print(`looking up time for ${query}...`);
+        } else {
+          window.dispatchEvent(new Event(OPEN_CLOCK_EVENT));
+          print("toggled clock widget");
+        }
+        break;
+      }
+      case "weather": {
+        const query = args.join(" ").trim();
+        if (query) {
+          window.dispatchEvent(
+            new CustomEvent(OPEN_WEATHER_EVENT, { detail: { query } })
+          );
+          print(`looking up weather for ${query}...`);
+        } else {
+          window.dispatchEvent(new Event(OPEN_WEATHER_EVENT));
+          print("toggled weather widget");
+        }
+        break;
+      }
+      case "sysinfo":
+        window.dispatchEvent(new Event(OPEN_SYSINFO_EVENT));
+        print("toggled sysinfo widget");
+        break;
+      case "reboot":
+        print("rebooting...");
+        sessionStorage.removeItem("booted");
+        sessionStorage.setItem("autoboot", "1");
+        setTimeout(() => window.location.reload(), 400);
+        break;
       case "cd": {
-        const dest = args[0]?.toLowerCase() ?? "";
+        const dest = args[0]?.toLowerCase().replace(/\/$/, "") ?? "";
         if (dest in routes) {
           router.push(routes[dest]);
+          setCwd("/");
           print(`-> ${routes[dest]}`);
+        } else if (advanced && dest === projectsDirName) {
+          setCwd("/projects");
+          print("-> /projects");
+        } else if (advanced && dest === ".." && cwd === "/projects") {
+          setCwd("/");
+          print("-> /");
         } else {
           print(`cd: no such file or directory: ${args[0] ?? ""}`);
         }
@@ -195,14 +322,25 @@ export default function CommandPalette() {
             </span>
             <span className="text-syntax-string">terminal.exe</span>
           </span>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="transition hover:text-accent"
-            aria-label="Close terminal"
-          >
-            [close]
-          </button>
+          <span className="flex items-center gap-3">
+            <label className="flex cursor-pointer items-center gap-1.5 transition hover:text-accent">
+              <input
+                type="checkbox"
+                checked={advanced}
+                onChange={(e) => toggleAdvanced(e.target.checked)}
+                className="h-3 w-3 accent-accent"
+              />
+              advanced
+            </label>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="transition hover:text-accent"
+              aria-label="Close terminal"
+            >
+              [close]
+            </button>
+          </span>
         </div>
 
         <div className="max-h-[50vh] overflow-y-auto px-4 py-3 text-sm">

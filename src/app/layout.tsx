@@ -9,6 +9,10 @@ import CRTEffects from "@/components/CRTEffects";
 import PageTransition from "@/components/PageTransition";
 import CommandPalette from "@/components/CommandPalette";
 import KonamiCode from "@/components/KonamiCode";
+import GalagaGame from "@/components/GalagaGame";
+import ClockWidget from "@/components/ClockWidget";
+import WeatherWidget from "@/components/WeatherWidget";
+import SysInfoWidget from "@/components/SysInfoWidget";
 import ContextMenu from "@/components/ContextMenu";
 import BootSequence from "@/components/BootSequence";
 import GlobalKeyClicks from "@/components/GlobalKeyClicks";
@@ -72,6 +76,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PageTransition />
         <CommandPalette />
         <KonamiCode />
+        <GalagaGame />
+        <ClockWidget />
+        <WeatherWidget />
+        <SysInfoWidget />
         <ContextMenu />
         <BootSequence />
         <GlobalKeyClicks />
