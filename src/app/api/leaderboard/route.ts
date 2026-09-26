@@ -45,18 +45,6 @@ async function topEntries(redis: Redis): Promise<LeaderboardEntry[]> {
     .filter((entry): entry is LeaderboardEntry => entry !== null);
 }
 
-export async function DELETE() {
-  // Temporary: clears out the test entries written while debugging the
-  // zrange read bug. Remove this handler once that cleanup has run.
-  try {
-    const redis = getRedis();
-    await redis.del(LEADERBOARD_KEY);
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ ok: false }, { status: 503 });
-  }
-}
-
 export async function GET() {
   try {
     const redis = getRedis();
