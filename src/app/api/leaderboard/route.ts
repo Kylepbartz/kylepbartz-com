@@ -96,13 +96,17 @@ export async function POST(request: Request) {
       score: entry.score,
       member: JSON.stringify(entry),
     });
-    // Keep only the top N -- ZREMRANGEBYRANK's ascending rank 0 is the
-    // lowest score, so this trims everything except the highest N.
-    await redis.zremrangebyrank(
-      LEADERBOARD_KEY,
-      0,
-      -(LEADERBOARD_MAX_ENTRIES + 1)
-    );
+    // Keep only the top N. A negative stop index resolves to 0 (not a
+    // no-op) once the set is smaller than N, which would delete whatever
+    // was just added -- so only trim when there's actually an excess.
+    const count = await redis.zcard(LEADERBOARD_KEY);
+    if (count > LEADERBOARD_MAX_ENTRIES) {
+      await redis.zremrangebyrank(
+        LEADERBOARD_KEY,
+        0,
+        count - LEADERBOARD_MAX_ENTRIES - 1
+      );
+    }
     const entries = await topEntries(redis);
     return NextResponse.json({ entries });
   } catch {
