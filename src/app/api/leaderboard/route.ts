@@ -9,7 +9,18 @@ import {
 const LEADERBOARD_KEY = "andromeda:leaderboard";
 
 function getRedis() {
-  return Redis.fromEnv();
+  // Vercel's Upstash marketplace integration injects KV_REST_API_URL /
+  // KV_REST_API_TOKEN (not the UPSTASH_REDIS_REST_* names Redis.fromEnv()
+  // looks for), so read those explicitly, falling back to the Upstash
+  // native names in case those are set instead (e.g. local dev via
+  // `vercel env pull` from an older-style integration).
+  const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
+  const token =
+    process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) {
+    throw new Error("Redis environment variables are not configured");
+  }
+  return new Redis({ url, token });
 }
 
 async function topEntries(redis: Redis): Promise<LeaderboardEntry[]> {
