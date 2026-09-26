@@ -43,6 +43,15 @@ export default function BootSequence() {
     return () => cleanupRef.current();
   }, []);
 
+  useEffect(() => {
+    if (stage !== "awaiting-power") return;
+    function onKeyDown() {
+      powerOn();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [stage]);
+
   function powerOn() {
     setStage("booting");
 
@@ -79,14 +88,14 @@ export default function BootSequence() {
       {stage === "awaiting-power" ? (
         <>
           <p className="text-xs tracking-widest text-white/40 sm:text-sm">
-            SYSTEM OFFLINE
+            SYSTEM READY
           </p>
           <button
             type="button"
             onClick={powerOn}
             className="border border-[#39ff88] px-6 py-3 tracking-widest transition hover:bg-[#39ff88] hover:text-black"
           >
-            &gt; POWER ON
+            &gt; LAUNCH
           </button>
         </>
       ) : (
