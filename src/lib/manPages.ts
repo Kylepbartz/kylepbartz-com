@@ -115,6 +115,26 @@ const MAN_PAGES: Record<string, string> = {
   exit: manPage("exit", "close the terminal", "exit", [
     "Closes this terminal window.",
   ]),
+  andromeda: manPage(
+    "andromeda",
+    "launch the ANDROMEDA mini-game",
+    "andromeda",
+    [
+      "Launches ANDROMEDA, a full arcade shooter, right in the terminal.",
+      "",
+      "Same effect as entering the konami code on the keyboard.",
+    ]
+  ),
+  leaderboard: manPage(
+    "leaderboard",
+    "show ANDROMEDA high scores",
+    "leaderboard",
+    [
+      "Prints the top 10 ANDROMEDA scores, shared across every visitor.",
+      "",
+      "Set from the game's own high-score entry screen.",
+    ]
+  ),
 };
 
 MAN_PAGES.top = manPage("top", "list running widgets", "top", [

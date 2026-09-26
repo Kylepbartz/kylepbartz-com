@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-const SOUND_SRC = "/audio/konami.m4a";
-
 const SEQUENCE = [
   "ArrowUp",
   "ArrowUp",
@@ -17,14 +15,9 @@ const SEQUENCE = [
   "a",
 ];
 
-/** Shared by the real key sequence and the hidden "galaga" terminal command
- * so both trigger the exact same glitch + sound + game-launch effect. */
+/** Shared by the real key sequence and the hidden "andromeda" terminal
+ * command so both trigger the exact same game-launch effect. */
 export function triggerKonami() {
-  document.body.classList.add("glitch");
-  setTimeout(() => document.body.classList.remove("glitch"), 600);
-  const audio = new Audio(SOUND_SRC);
-  audio.volume = 0.3;
-  audio.play().catch(() => {});
   window.dispatchEvent(new Event("konami-code"));
 }
 

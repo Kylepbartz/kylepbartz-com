@@ -16,6 +16,7 @@ import {
   type ProcessName,
 } from "@/lib/processRegistry";
 import { getManPage } from "@/lib/manPages";
+import { fetchLeaderboard } from "@/lib/leaderboard";
 
 type Line = { type: "input" | "output"; text: string };
 
@@ -54,6 +55,8 @@ const HELP_BASIC = [
   "  clock [city]      toggle clock widget (optionally for a city)",
   "  weather [city]    toggle weather widget (optionally for a city)",
   "  sysinfo           toggle a draggable sysinfo widget",
+  "  andromeda         launch the ANDROMEDA mini-game",
+  "  leaderboard       show ANDROMEDA high scores",
   "  clear             clear the screen",
   "  exit              close this terminal",
 ].join("\n");
@@ -76,6 +79,8 @@ const HELP_ADVANCED = [
   "  ps | top          list running widgets",
   "  kill <process>    close a running widget by name",
   "  man <command>     print a command's manual page",
+  "  andromeda         launch the ANDROMEDA mini-game",
+  "  leaderboard       show ANDROMEDA high scores",
   "  clear             clear the screen",
   "  exit              close this terminal",
 ].join("\n");
@@ -260,11 +265,28 @@ export default function CommandPalette() {
         router.push("/resume");
         print("-> /resume");
         break;
-      case "galaga":
+      case "andromeda":
         print("cheat code accepted. good memory.");
         triggerKonami();
         setOpen(false);
         return;
+      case "leaderboard":
+        print("fetching leaderboard...");
+        fetchLeaderboard().then((entries) => {
+          if (entries.length === 0) {
+            print("no scores yet. be the first: andromeda");
+            return;
+          }
+          print(
+            [
+              "ANDROMEDA LEADERBOARD",
+              ...entries.map(
+                (e, i) => `${i + 1}. ${e.initials}  ${e.score}  wave ${e.wave}`
+              ),
+            ].join("\n")
+          );
+        });
+        break;
       case "clock": {
         const query = args.join(" ").trim();
         if (query) {
