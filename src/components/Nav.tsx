@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
+import HumToggle from "@/components/HumToggle";
 import TerminalClock from "@/components/TerminalClock";
 
 const links = [
@@ -53,7 +54,10 @@ export default function Nav() {
               </li>
             ))}
           </ul>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <HumToggle />
+            <ThemeToggle />
+          </div>
         </div>
 
         <button
@@ -90,7 +94,8 @@ export default function Nav() {
               </li>
             ))}
           </ul>
-          <div className="mt-4">
+          <div className="mt-4 flex items-center gap-2">
+            <HumToggle />
             <ThemeToggle />
           </div>
         </div>
