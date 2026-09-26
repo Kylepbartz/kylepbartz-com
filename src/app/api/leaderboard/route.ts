@@ -92,7 +92,7 @@ export async function POST(request: Request) {
 
   try {
     const redis = getRedis();
-    await redis.zadd(LEADERBOARD_KEY, {
+    const zaddResult = await redis.zadd(LEADERBOARD_KEY, {
       score: entry.score,
       member: JSON.stringify(entry),
     });
@@ -108,10 +108,17 @@ export async function POST(request: Request) {
       );
     }
     const entries = await topEntries(redis);
-    return NextResponse.json({ entries });
-  } catch {
-    return NextResponse.json({ error: "leaderboard unavailable" }, {
-      status: 503,
+    return NextResponse.json({
+      entries,
+      debug: { zaddResult, count, key: LEADERBOARD_KEY, wrote: entry },
     });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "leaderboard unavailable",
+        debug: String(err),
+      },
+      { status: 503 }
+    );
   }
 }
